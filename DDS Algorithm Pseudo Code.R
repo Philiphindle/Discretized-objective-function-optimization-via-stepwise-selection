@@ -1,13 +1,25 @@
+
+# 1) K=1 ------------------------------------------------------------------
+
+#First consider the simplified case where we look at only the first stock/weight in the 
+#matrix of weights
+
 #Number of rows (iterations). i.e. if n=10 then we increase the weights by 0.1 by each iteration
 n <- 100
 #Number of Stocks (columns)
 m <- 10
 #Vector of Expected Returns
 R <- c(rnorm(m, mean = 10, sd = 2))
-#Matrix of weights
+#(Empty) Matrix of weights
 x <- matrix(NA, nrow = (n+1), ncol = (m))
-#Covariance Matrix
-Cov <- matrix(N)
+#(Empty) Covariance Matrix
+Cov <- matrix(NA, nrow = m, ncol = m)
+#Iteratively fill in the elements of the matrix
+for (i in 1:m) {
+  for (j in 1:m) {
+    Cov[i, j] <- set
+  }
+}
 #k = 1 Case- only consider the first stock for which we are changing the weights
 for(i in 0:n){
   #Number of columns that excludes the ith column for the weights we are adjusting and exludes the columns for
@@ -26,4 +38,5 @@ for(i in 0:n){
   Sharpe[i] <- (p - r_f) / sigma_p
   f<- 0
 }
+#Return the row index of the weights matrix that yields the optimal Sharpe Ratio
 which.max(Sharpe)
