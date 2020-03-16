@@ -22,9 +22,11 @@ for (i in 1:m) {
 }
 #k = 1 Case- only consider the first stock for which we are changing the weights
 for(i in 0:n){
-  #Number of columns that excludes the ith column for the weights we are adjusting and exludes the columns for
-  #the previously adjusted stock weights
+  #Number of columns that excludes the ith column for the weights we are adjusting and exludes 
+  #the columns for the previously adjusted stock weights
   m <- ncol(x) - 1
+  #Reset the portfolio return
+  p <- 0
   for(j in 1:m){
     if(j = 1){
       x[i,j] <- i / n
@@ -33,10 +35,11 @@ for(i in 0:n){
     }
     #Calculate expected return on portfolio
     p <- p + x[i,j] * R[j]
+    #Calculate variance on portfolio
     sigma_p <- sum((x[i,j]^2))
   }
+  #Calculate sharpe ratio for row i (ith set of weights)
   Sharpe[i] <- (p - r_f) / sigma_p
-  f<- 0
 }
 #Return the row index of the weights matrix that yields the optimal Sharpe Ratio
 which.max(Sharpe)
