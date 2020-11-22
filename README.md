@@ -2,7 +2,8 @@
 
 The purpose of this algorithm is to efficiently weight the allocation of stocks in a portfolio such that the Sharpe Ratio is maximized. There are several methods in which one can do this
 
-1) Grid Search (Discretized Dynamical System)
+### 1) Grid Search (Discretized Dynamical System)
+
 The standard Grid Search considers every possible combination of weights for the stocks in each portfolio. It iterates over each stock weight, by first finding the optimal value of each stock and then tweaking all other stock values. The algorithm can then be repeated to ensure convergence to a global maxima. 
 
 __Advantages__
@@ -13,7 +14,7 @@ __Disadvantages__
 - Computationally Inefficient- the algorithm searches all areas, even in spatially distant regions from the global maxima
 - Grid Search suffers from granularity problems- the smaller the incremental change in weight the more computationally expensive the algorithm becomes
 
-2) Random Search
+### 2) Random Search
 Stochastic random search works by randomly simulating weights for each stock such that the weights sum to 1. For each simulation the Sharpe Ratio is calculated and the weights associated with the maximum Sharpe Ratio are assigned
 
 __Advantages__
@@ -24,7 +25,7 @@ __Advantages__
 __Disadvantages__
 - Many simulations required to find a reasonable estimate for the optimal value of all weights
 
-3) Simulated Aneeling
+### 3) Simulated Aneeling
 Similar to Random Search, except the value of the randomly generated weights converge over time. This is done by reducing the variance of the distribution used to simulate the weights and then fixing the mean of the distribution for each weight around the weights that give the highest initial Sharpe ratio
 
 __Advantages__
