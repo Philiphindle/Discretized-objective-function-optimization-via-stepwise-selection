@@ -8,7 +8,7 @@ The standard Grid Search considers every possible combination of weights for the
 
 __Advantages__
 - Avoids being stuck in local maxima as the whole parameter space is searched
-- Can consider many combinations of portfolio weights and 'tweaks' weights assigned to previous stocks
+- Can consider many combinations of portfolio weights and 'tweak' weights assigned to previous stocks
 
 __Disadvantages__
 - Computationally Inefficient- the algorithm searches all areas, even in spatially distant regions from the global maxima
