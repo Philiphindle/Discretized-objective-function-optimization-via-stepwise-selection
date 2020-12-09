@@ -1,0 +1,25 @@
+---
+title: "DDS Algorithm"
+author: "Dominic Scruton"
+date: "22 May 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#Uniform assessment
+for (i in 1:10) {
+  for (i in 1:10) {
+    for (k in 1:10) {
+      stock[k] <- runif(1)
+      for (variable in vector) {
+        
+      }
+    }
+  }
+}
+``
