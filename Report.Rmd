@@ -10,16 +10,20 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r}
-#Uniform assessment
-for (i in 1:10) {
-  for (i in 1:10) {
-    for (k in 1:10) {
-      stock[k] <- runif(1)
-      for (variable in vector) {
-        
-      }
-    }
-  }
-}
-``
+## Portfolio Theory
+
+The Expected return of a portfolio with k assets is simply the weighted sum of expected returns for each asset and is given by:
+
+$$E[R_p] = \sum_{i = 1}^k{w_ir_i} = \mathbf{w}^T\mathbf{r}$$
+
+where $\mathbf{w}$ is a vector of stock weights and $\mathbf{r}$ is a vector of the expected returns for each stock. Defining these functions in matrix algebra notation emphasizes the use of vectorization within the DDS Algorithm. The variance of the expected return is then:
+
+\begin{align*} 
+Var[E[R_p]] &= Var[\mathbf{w}^T\mathbf{r}]\\
+&= 
+\end{align*}
+
+
+## Bibliography
+
+- Harry Markowitz Portfolio Theory
