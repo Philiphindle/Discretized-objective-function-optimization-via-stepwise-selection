@@ -74,6 +74,9 @@ system.time()
 
 # D) Assess Performance of Algorithm --------------------------------------
 
+#Pre-processing function to calculate daily stock returns if stock prices are
+#provided instead of returns
+
 #Random Search
 
 DDS_RandomSearch <- function(n_stocks = 10, iterations = 100, returns, data, 
@@ -86,6 +89,8 @@ DDS_RandomSearch <- function(n_stocks = 10, iterations = 100, returns, data,
   
   #Initialize Vector of Weights
   weights <- c(rep(0, n_stocks))
+  #Matrix to store weights and Sharpe Ratio
+  Sharpe_matrix <- matrix(data = NA, nrow = iterations, ncol = n_stocks + 1)
   
   for(i in 1:iterations){
     weights <- c(runif(n_stocks))
@@ -93,9 +98,41 @@ DDS_RandomSearch <- function(n_stocks = 10, iterations = 100, returns, data,
     #Calculate Sharpe ratio for given weights
     #Expected Portfolio Return
     ER_p <- normalized_weights * returns
-    
+    #Expected Portfolio Standard Deviation
+    Std_P <- t(w) %*% var(data) %*% w
+    #Sharpe Ratio
+    Sharpe <- (ER_p - risk_free) / Std_P
   }
   #Identify weights corresponding to greatest Sharpe Ratio
 }
 
 #Could also use a spatial plot/ heat map for the Sharpe Ratio
+
+
+# Testing -----------------------------------------------------------------
+
+#Vector of daily returns for each simulated stock
+#1000 trading days in total
+n <- 1000
+set.seed(1234)
+Stock1 <- c(rnorm(n, 0.0002, 0.001))
+#calculate annualized returns, assuming 251 annual trading days- 7.1% annualized return
+#for stock 1
+prod(1 + Stock1)^(251/n)
+Stock2 <- c(rnorm(n, 0.0004, 0.01))
+prod(1 + Stock2)^(251/n)
+Stock3 <- c(rnorm(n, 0.0006, 0.05))
+prod(1 + Stock3)^(251/n)
+#Plot Returns
+plot(Stock1, type = 'l')
+#Plot Stock Price
+Stock_Price <- c()
+Stock_Price[1] <- 100
+for (i in 2:n) {
+  Stock_Price[i] <- Stock_Price[i - 1] * (1 + Stock3[i])
+}
+plot(Stock_Price, type = 'l')
+#BUT -we want to introduce some positive correlation between the stock returns and 
+#simulate this to really think about how the function is working (and not just test
+#that it syntatically works)
+data <- as.data.frame(matrix())
