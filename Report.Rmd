@@ -20,9 +20,18 @@ where $\mathbf{w}$ is a vector of stock weights and $\mathbf{r}$ is a vector of 
 
 \begin{align*} 
 Var[E[R_p]] &= Var[\mathbf{w}^T\mathbf{r}]\\
-&= 
+&= \mathbf{w}^T Var[\mathbf{r}] \mathbf{w}\\
+&= \mathbf{w}^T \Sigma \mathbf{w}
 \end{align*}
 
+Generally use simple returns when we have many assets. The portfolios Sharpe Ratio is then given as:
+
+$$Sharpe = \frac{E[R_p] - r_f}{SD[R_p]}$$
+
+The Sharpe ratio specifies the Additional expected return for a given level of risk. A higher Sharpe Ratio suggest a more optimal portfolio. 
+
+
+We test and simulate using stock returns from 1 January 2010 to 1 December 2020 inclusive, for Delta Airlines, Walmart and Microsoft stock in a portfolio (could add many more)
 
 ## Bibliography
 
