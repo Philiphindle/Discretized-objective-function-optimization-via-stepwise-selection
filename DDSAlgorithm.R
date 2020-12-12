@@ -77,19 +77,20 @@ system.time()
 #Pre-processing function to calculate daily stock returns if stock prices are
 #provided instead of returns
 
-#Random Search
+# Random Search Algorithm -------------------------------------------------
 
 DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data, 
                              risk_free = 1.01, random.seed = 1234){
+  
+  #1) Check if data and other variables are correct format
+  #2) Check if daily returns or daily stock price has been provided
+  #3) Check risk free return is just over 1, etc.
   
   n_stocks <- dim(data)[2]
   observations <- dim(data)[1]
   #If no Expected Returns are set, calculate expected returns as past returns- set
   #other conditions to ensure they have the same numerical value as returns and also
   #have the correct format- i.e. a dataframe of floats.
-  if (returns != 'yes') {
-    returns <- c()
-  }
   
   Returns_annualized <- c(rep(NA, n_stocks))
   #Calculate annualized returns from daily returns
@@ -119,9 +120,6 @@ DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data,
   return(Sharpe_matrix[which.max(Sharpe_matrix[, (n_stocks + 1)]), 1:n_stocks])
 }
 
-#Could also use a spatial plot/ heat map for the Sharpe Ratio
-
-
 # Testing -----------------------------------------------------------------
 
 #Vector of daily returns for each simulated stock
@@ -149,3 +147,18 @@ plot(Stock_Price, type = 'l')
 #simulate this to really think about how the function is working (and not just test
 #that it syntatically works)
 data <- as.data.frame(matrix(c(Stock1, Stock2, Stock3), ncol = 3))
+
+#Could also use a spatial plot/ heat map for the Sharpe Ratio
+library(fields)
+quilt.plot(x = Sharpe_matrix[, 1], y = Sharpe_matrix[, 2], z = Sharpe_matrix[, 4], 
+           nrow = 50, ncol = 50)
+plot(Sharpe_matrix[, 1], Sharpe_matrix[, 4])
+
+DDS_RandomSearch(data = data, risk_free = 1.02)
+
+#Plot with some real test data
+#Consider stock in Microsoft, Walmart and Delta Air Lines
+MSFT <- read.csv("data/MSFT.csv")["Adj.Close"]
+DAL <- read.csv("data/DAL.csv")["Adj.Close"]
+WMT <- read.csv("data/WMT.csv")["Adj.Close"]
+data <- as.data.frame(matrix(c(MSFT, DAL, WMT), ncol = 3))
