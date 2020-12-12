@@ -161,4 +161,19 @@ DDS_RandomSearch(data = data, risk_free = 1.02)
 MSFT <- read.csv("data/MSFT.csv")["Adj.Close"]
 DAL <- read.csv("data/DAL.csv")["Adj.Close"]
 WMT <- read.csv("data/WMT.csv")["Adj.Close"]
-data <- as.data.frame(matrix(c(MSFT, DAL, WMT), ncol = 3))
+data <- cbind(MSFT, DAL, WMT)
+
+#Calculate Simple Returns
+Returns <- matrix(NA, nrow = (dim(data)[1] - 1), ncol = 3)
+for (i in 1:(dim(data)[1] - 1)) {
+  Returns[i, ] <- as.matrix(data)[i + 1, ] / as.matrix(data)[i, ]
+}
+Returns <- Returns - 1
+data <- Returns
+DDS_RandomSearch(data = Returns)
+
+#Spatial plot
+library(fields)
+quilt.plot(x = Sharpe_matrix[, 1], y = Sharpe_matrix[, 3], z = Sharpe_matrix[, 4], 
+           nrow = 20, ncol = 20)
+plot(Sharpe_matrix[, 1], Sharpe_matrix[, 4])
