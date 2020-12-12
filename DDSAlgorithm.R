@@ -74,3 +74,28 @@ system.time()
 
 # D) Assess Performance of Algorithm --------------------------------------
 
+#Random Search
+
+DDS_RandomSearch <- function(n_stocks = 10, iterations = 100, returns, data, 
+                             risk_free = 0.5){
+  
+  #If no Expected Returns are set, calculate expected returns as past returns
+  if (is.null(returns)) {
+    returns <- c(colmeans(data))
+  }
+  
+  #Initialize Vector of Weights
+  weights <- c(rep(0, n_stocks))
+  
+  for(i in 1:iterations){
+    weights <- c(runif(n_stocks))
+    normalized_weights <- weights / sum(weights)
+    #Calculate Sharpe ratio for given weights
+    #Expected Portfolio Return
+    ER_p <- normalized_weights * returns
+    
+  }
+  #Identify weights corresponding to greatest Sharpe Ratio
+}
+
+#Could also use a spatial plot/ heat map for the Sharpe Ratio
