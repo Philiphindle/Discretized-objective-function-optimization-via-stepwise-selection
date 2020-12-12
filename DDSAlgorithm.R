@@ -79,12 +79,22 @@ system.time()
 
 #Random Search
 
-DDS_RandomSearch <- function(n_stocks = 10, iterations = 100, returns, data, 
-                             risk_free = 0.5){
+DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data, 
+                             risk_free = 1.01, random.seed = 1234){
   
-  #If no Expected Returns are set, calculate expected returns as past returns
-  if (is.null(returns)) {
-    returns <- c(colmeans(data))
+  n_stocks <- dim(data)[2]
+  observations <- dim(data)[1]
+  #If no Expected Returns are set, calculate expected returns as past returns- set
+  #other conditions to ensure they have the same numerical value as returns and also
+  #have the correct format- i.e. a dataframe of floats.
+  if (returns != 'yes') {
+    returns <- c()
+  }
+  
+  Returns_annualized <- c(rep(NA, n_stocks))
+  #Calculate annualized returns from daily returns
+  for (i in 1:n_stocks) {
+    Returns_annualized[i] <- prod(1 + data[, i]) ^ (251 / observations)
   }
   
   #Initialize Vector of Weights
@@ -92,18 +102,21 @@ DDS_RandomSearch <- function(n_stocks = 10, iterations = 100, returns, data,
   #Matrix to store weights and Sharpe Ratio
   Sharpe_matrix <- matrix(data = NA, nrow = iterations, ncol = n_stocks + 1)
   
+  set.seed(random.seed)
   for(i in 1:iterations){
     weights <- c(runif(n_stocks))
     normalized_weights <- weights / sum(weights)
     #Calculate Sharpe ratio for given weights
     #Expected Portfolio Return
-    ER_p <- normalized_weights * returns
+    ER_p <- normalized_weights %*% Returns_annualized
     #Expected Portfolio Standard Deviation
-    Std_P <- t(w) %*% var(data) %*% w
+    Std_P <- sqrt(t(normalized_weights) %*% var(data) %*% normalized_weights)
     #Sharpe Ratio
-    Sharpe <- (ER_p - risk_free) / Std_P
+    Sharpe_matrix[i, 1:n_stocks] <- normalized_weights
+    Sharpe_matrix[i, (n_stocks + 1)] <- (ER_p - risk_free) / Std_P
   }
   #Identify weights corresponding to greatest Sharpe Ratio
+  return(Sharpe_matrix[which.max(Sharpe_matrix[, (n_stocks + 1)]), 1:n_stocks])
 }
 
 #Could also use a spatial plot/ heat map for the Sharpe Ratio
@@ -135,4 +148,4 @@ plot(Stock_Price, type = 'l')
 #BUT -we want to introduce some positive correlation between the stock returns and 
 #simulate this to really think about how the function is working (and not just test
 #that it syntatically works)
-data <- as.data.frame(matrix())
+data <- as.data.frame(matrix(c(Stock1, Stock2, Stock3), ncol = 3))
