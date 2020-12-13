@@ -54,7 +54,17 @@ $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}
 
 ### Grid Search
 
+### Bisection Method
+
+### Gauss-Newton Method
+
 ### Simulated Aneeling
+
+### Other Optimization Methods
+
+There exist a plethora of possible methods to solve the optimization problem identified in this report. The two general contrasting methods discussed are Stochastic and Deterministic forms of optimization.
+
+Discuss the Advantages and disadvantages of the two methods- Deterministic and stochastic optimization methodology
 
 ## The DDS Algorithm (R Package)
 
