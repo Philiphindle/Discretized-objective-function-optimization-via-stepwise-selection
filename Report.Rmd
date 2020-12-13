@@ -30,6 +30,15 @@ $$Sharpe = \frac{E[R_p] - r_f}{SD[R_p]}$$
 
 The Sharpe ratio specifies the Additional expected return for a given level of risk. A higher Sharpe Ratio suggest a more optimal portfolio. 
 
+## Optimization Problem
+
+One would like to maximize the Sharpe ratio such that the sum of weights in the portfolio equals one. This optimization problem can be expressed as follows:
+
+$$Max \left( \frac{E[r_p] - r_f}{Std[E[r_p]]} \right) s.t. \sum_{i = 1}^{K} w_i = 1$$
+
+Or in vector notation:
+
+$$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}} \right) s.t. \|\mathbf{w}\| = 1$$
 
 We test and simulate using stock returns from 1 January 2010 to 1 December 2020 inclusive, for Delta Airlines, Walmart and Microsoft stock in a portfolio (could add many more)
 
