@@ -82,6 +82,16 @@ system.time()
 DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data, 
                              risk_free = 1.01, random.seed = 1234){
   
+  #Check input arguments are of correct structure and value
+  # 1. Checking Iterations is a positive integer
+  if (iterations <= 0 | iterations != as.integer(iterations)) 
+  stop("Number of Iterations must be a positive integer")
+  
+  # 2. Checking data is a dataframe with number of rows equal to number of
+  #    observations and number of columns equal to number of stocks
+  
+  # 3. Check risk_free rate is an integer greater than or equal to one
+  
   #1) Check if data and other variables are correct format
   #2) Check if daily returns or daily stock price has been provided
   #3) Check risk free return is just over 1, etc.
@@ -177,3 +187,12 @@ library(fields)
 quilt.plot(x = Sharpe_matrix[, 1], y = Sharpe_matrix[, 3], z = Sharpe_matrix[, 4], 
            nrow = 20, ncol = 20)
 plot(Sharpe_matrix[, 1], Sharpe_matrix[, 4])
+
+
+
+# Boundary Testing --------------------------------------------------------
+
+#Check iterations is appropriately specified
+DDS_RandomSearch(data = Returns, iterations = -1)
+DDS_RandomSearch(data = Returns, iterations = 27.3)
+DDS_RandomSearch(data = Returns, iterations = c(2, 3, 4))
