@@ -223,12 +223,12 @@ for (i in 1:(dim(data)[1] - 1)) {
 }
 Returns <- Returns - 1
 data <- Returns
-DDS_RandomSearch(data = Returns)
+Test <- DDS_RandomSearch(data = Returns, iterations = 100000)
 
 #Spatial plot
 library(fields)
-quilt.plot(x = Sharpe_matrix[, 1], y = Sharpe_matrix[, 3], z = Sharpe_matrix[, 4], 
-           nrow = 20, ncol = 20)
+quilt.plot(x = Test$Sharpe_matrix[, 1], y = Test$Sharpe_matrix[, 3], 
+           z = Test$Sharpe_matrix[, 4], nrow = 50, ncol = 100)
 plot(Sharpe_matrix[, 1], Sharpe_matrix[, 4])
 
 # Boundary Testing --------------------------------------------------------
@@ -237,3 +237,6 @@ plot(Sharpe_matrix[, 1], Sharpe_matrix[, 4])
 DDS_RandomSearch(data = Returns, iterations = -1)
 DDS_RandomSearch(data = Returns, iterations = 27.3)
 DDS_RandomSearch(data = Returns, iterations = c(2, 3, 4))
+
+#We could also profile the code and aim for parallelization to improve
+#computational speed
