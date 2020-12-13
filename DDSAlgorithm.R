@@ -77,10 +77,11 @@ system.time()
 #Pre-processing function to calculate daily stock returns if stock prices are
 #provided instead of returns
 
-# Random Search Algorithm -------------------------------------------------
+# Portfolio Optimization Algorithm ----------------------------------------
 
 DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data, 
-                             risk_free = 1.01, random.seed = 1234){
+                             risk_free = 1.01, random.seed = 1234, 
+                             method = "Grid Search"){
   
   #Check input arguments are of correct structure and value
   # 1. Checking Iterations is a positive integer
@@ -114,6 +115,22 @@ DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data,
   Sharpe_matrix <- matrix(data = NA, nrow = iterations, ncol = n_stocks + 1)
   
   set.seed(random.seed)
+  if (method == "Grid Search") {
+      Grid_Search <- Random_Grid_Search(iterations, n_stocks, Returns_annualized, 
+                                        data, risk_free, Sharpe_matrix)  
+  }
+
+  #Identify weights corresponding to greatest Sharpe Ratio
+  return(list("Sharpe_matrix" = Grid_Search$Sharpe_matrix, "Optimal_weights" = 
+                Grid_Search$Sharpe_matrix[which.max(Grid_Search$Sharpe_matrix[, (n_stocks + 1)]), 
+                              1:n_stocks]))
+}
+
+
+# 1) Random Search Optimization ----------------------------------------------
+
+Random_Grid_Search <- function(iterations, n_stocks, Returns_annualized, data, 
+                               risk_free, Sharpe_matrix){
   for(i in 1:iterations){
     weights <- c(runif(n_stocks))
     normalized_weights <- weights / sum(weights)
@@ -126,9 +143,16 @@ DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data,
     Sharpe_matrix[i, 1:n_stocks] <- normalized_weights
     Sharpe_matrix[i, (n_stocks + 1)] <- (ER_p - risk_free) / Std_P
   }
-  #Identify weights corresponding to greatest Sharpe Ratio
-  return(Sharpe_matrix[which.max(Sharpe_matrix[, (n_stocks + 1)]), 1:n_stocks])
+  #Return Sharpe Matrix as a list and identify weights corresponding to greatest 
+  #Sharpe Ratio
+  OptimizationResults <- list("Sharpe_matrix" = Sharpe_matrix)
+  return(OptimizationResults = OptimizationResults)
 }
+
+
+# 2) Simulated Aneeling Optimization --------------------------------------
+
+
 
 # Testing -----------------------------------------------------------------
 
@@ -187,8 +211,6 @@ library(fields)
 quilt.plot(x = Sharpe_matrix[, 1], y = Sharpe_matrix[, 3], z = Sharpe_matrix[, 4], 
            nrow = 20, ncol = 20)
 plot(Sharpe_matrix[, 1], Sharpe_matrix[, 4])
-
-
 
 # Boundary Testing --------------------------------------------------------
 
