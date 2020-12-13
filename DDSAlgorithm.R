@@ -149,10 +149,29 @@ Random_Grid_Search <- function(iterations, n_stocks, Returns_annualized, data,
   return(OptimizationResults = OptimizationResults)
 }
 
-
 # 2) Simulated Aneeling Optimization --------------------------------------
 
-
+Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized, data, 
+                               risk_free, Sharpe_matrix, delta0 = 0.01, 
+                               cooling_schedule = 0.01){
+  #Simulated Aneeling will require additional parameters, so we will need an option
+  #in the main function to enable this
+  
+  #Also choose a cooling schedule for which the simulations support- i.e. choose
+  #a cooling schedule conducive with good function performance
+  
+  #Starting weights
+  weights <- c(runif(n_stocks))
+  normalized_weights <- weights / sum(weights)
+  
+  #Stopping schedule
+  while (delta < delta0) {
+    #Propose a new set of weights
+    weights <- rnorm(n_stocks, mean = normalized_weights, sd = 1 / (delta ^ 2))
+    normalized_weights <- weights / sum(weights)
+  }
+  
+}
 
 # Testing -----------------------------------------------------------------
 
