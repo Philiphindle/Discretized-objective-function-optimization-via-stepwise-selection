@@ -64,7 +64,7 @@ $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}
 
 There exist a plethora of possible methods to solve the optimization problem identified in this report. The two general contrasting methods discussed are Stochastic and Deterministic forms of optimization.
 
-Discuss the Advantages and disadvantages of the two methods- Deterministic and stochastic optimization methodology
+Discuss the Advantages and disadvantages of the two methods- Deterministic and stochastic optimization methodology and also of the methods in general.
 
 ## The DDS Algorithm (R Package)
 
@@ -80,7 +80,14 @@ Discuss the Advantages and disadvantages of the two methods- Deterministic and s
 
 Unit testing helps to create robust code. This ensures the code is robust to new versions of R, as well as enabling users to utilize the function correctly. This ensures the function generates the expected output and can deal with arguments of different structure, flagging problems if the structure of input arguments is not appropriate (boundary testing). This ensure code is robust and results are reproducible.
 
+### Boundary Testing
+
 ### Simulation
+
+### Assessing Computational Efficiency
+
+- discuss the computational efficiency of the different optimization methods- measure using the system.time function, for example.
+- Also discuss how I improved the computational speed of the function using Parallelization and profiling.
 
 
 ### Example Portfolio
