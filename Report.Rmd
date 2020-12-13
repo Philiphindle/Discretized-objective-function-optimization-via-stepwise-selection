@@ -12,6 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Portfolio Theory
 
+### Introduction
+
+### Capital Asset Pricing Model (CAPM)
+
+### Sharpe Ratio as a Measure of Performance
+
 The Expected return of a portfolio with k assets is simply the weighted sum of expected returns for each asset and is given by:
 
 $$E[R_p] = \sum_{i = 1}^k{w_ir_i} = \mathbf{w}^T\mathbf{r}$$
@@ -30,7 +36,9 @@ $$Sharpe = \frac{E[R_p] - r_f}{SD[R_p]}$$
 
 The Sharpe ratio specifies the Additional expected return for a given level of risk. A higher Sharpe Ratio suggest a more optimal portfolio. 
 
-## Optimization Problem
+## Methodology
+
+### Optimization Problem
 
 One would like to maximize the Sharpe ratio such that the sum of weights in the portfolio equals one. This optimization problem can be expressed as follows:
 
@@ -40,8 +48,51 @@ Or in vector notation:
 
 $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}} \right) s.t. \|\mathbf{w}\| = 1$$
 
+### Theoretical Solution (i.e. consider the actual mathematical result)
+
+### Discretized Dynamical System
+
+### Grid Search
+
+### Simulated Aneeling
+
+## The DDS Algorithm (R Package)
+
+### Pre-Processing Function
+
+### DDS Algorithm
+
+### Heat Maps and Plots
+
+## Testing
+
+### Unit Testing
+
+Unit testing helps to create robust code. This ensures the code is robust to new versions of R, as well as enabling users to utilize the function correctly. This ensures the function generates the expected output and can deal with arguments of different structure, flagging problems if the structure of input arguments is not appropriate (boundary testing). This ensure code is robust and results are reproducible.
+
+### Simulation
+
+
+### Example Portfolio
+
 We test and simulate using stock returns from 1 January 2010 to 1 December 2020 inclusive, for Delta Airlines, Walmart and Microsoft stock in a portfolio (could add many more)
 
 ## Bibliography
 
-- Harry Markowitz Portfolio Theory
+Alison Etheridge. 2002. "A Course in Financial Calculus". Cambridge University Press.
+
+Jonathan Berk, Peter DeMarzo. 2014. "Corporate Finance". Pearson.
+
+Geoffrey Grimmett, David Stirzaker. 2001. "Probability and Random Processes". Oxford University Press.
+
+RStudio Team (2016). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/.
+
+## Appendix
+
+### Python Code
+
+- Attach the equivalent Python code to the above problem, however, no 'package' has been created- BUT could look into this.
+
+### R code
+
+- add any extra pieces of R code here
