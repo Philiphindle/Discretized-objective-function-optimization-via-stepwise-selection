@@ -1,3 +1,11 @@
+#Import Optimization Functions
+source("Optimization-Methods/Stochastic-Grid-Search.R")
+source("Optimization-Methods/Bisection-Method.R")
+source("Optimization-Methods/Deterministic-Grid-Search.R")
+source("Optimization-Methods/Gauss-Newton.R")
+source("Optimization-Methods/Simulated-Aneeling.R")
+#MIGHT NEED TO PUT THESE INSIDE THE DDS FUNCTION, WHEN CALLED IN THE ARGUMENTS
+
 #Can we do simulated aneeling but at each step.
 
 #See Hide and Seek Algorithm
@@ -116,64 +124,16 @@ DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data,
   
   set.seed(random.seed)
   if (method == "Grid Search") {
-      Grid_Search <- Random_Grid_Search(iterations, n_stocks, Returns_annualized, 
+      DDS_optimization <- Random_Grid_Search(iterations, n_stocks, Returns_annualized, 
                                         data, risk_free, Sharpe_matrix)  
   }
 
   #Identify weights corresponding to greatest Sharpe Ratio
-  return(list("Sharpe_matrix" = Grid_Search$Sharpe_matrix, "Optimal_weights" = 
-                Grid_Search$Sharpe_matrix[which.max(Grid_Search$Sharpe_matrix[, 
+  return(list("Sharpe_matrix" = DDS_optimization$Sharpe_matrix, "Optimal_weights" = 
+                DDS_optimization$Sharpe_matrix[which.max(DDS_optimization$Sharpe_matrix[, 
                   (n_stocks + 1)]), 1:n_stocks], "Optimal_sharpe_ratio" = 
-                Grid_Search$Sharpe_matrix[which.max(Grid_Search$Sharpe_matrix[, 
+                DDS_optimization$Sharpe_matrix[which.max(DDS_optimization$Sharpe_matrix[, 
                   (n_stocks + 1)]), (n_stocks + 1)]))
-}
-
-
-# 1) Random Search Optimization ----------------------------------------------
-
-Random_Grid_Search <- function(iterations, n_stocks, Returns_annualized, data, 
-                               risk_free, Sharpe_matrix){
-  for(i in 1:iterations){
-    weights <- c(runif(n_stocks))
-    normalized_weights <- weights / sum(weights)
-    #Calculate Sharpe ratio for given weights
-    #Expected Portfolio Return
-    ER_p <- normalized_weights %*% Returns_annualized
-    #Expected Portfolio Standard Deviation- annualize by multiplying by number of
-    #trading days (251)
-    Std_P <- sqrt(t(normalized_weights) %*% (var(data) * 251) %*% normalized_weights)
-    #Sharpe Ratio
-    Sharpe_matrix[i, 1:n_stocks] <- normalized_weights
-    Sharpe_matrix[i, (n_stocks + 1)] <- (ER_p - risk_free) / Std_P
-  }
-  #Return Sharpe Matrix as a list and identify weights corresponding to greatest 
-  #Sharpe Ratio
-  OptimizationResults <- list("Sharpe_matrix" = Sharpe_matrix)
-  return(OptimizationResults = OptimizationResults)
-}
-
-# 2) Simulated Aneeling Optimization --------------------------------------
-
-Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized, data, 
-                               risk_free, Sharpe_matrix, delta0 = 0.01, 
-                               cooling_schedule = 0.01){
-  #Simulated Aneeling will require additional parameters, so we will need an option
-  #in the main function to enable this
-  
-  #Also choose a cooling schedule for which the simulations support- i.e. choose
-  #a cooling schedule conducive with good function performance
-  
-  #Starting weights
-  weights <- c(runif(n_stocks))
-  normalized_weights <- weights / sum(weights)
-  
-  #Stopping schedule
-  while (delta < delta0) {
-    #Propose a new set of weights
-    weights <- rnorm(n_stocks, mean = normalized_weights, sd = 1 / (delta ^ 2))
-    normalized_weights <- weights / sum(weights)
-  }
-  
 }
 
 # Testing -----------------------------------------------------------------
@@ -243,3 +203,10 @@ DDS_RandomSearch(data = Returns, iterations = c(2, 3, 4))
 
 #We could also profile the code and aim for parallelization to improve
 #computational speed
+
+
+# Computational Speed and Performance -------------------------------------
+
+# Consider the computational speed of the different optimization methods and plot
+#a graph showing how this speed is affected both by the number of possible stocks
+#and the number of iterations.
