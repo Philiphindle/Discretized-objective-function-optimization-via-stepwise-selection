@@ -122,8 +122,10 @@ DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data,
 
   #Identify weights corresponding to greatest Sharpe Ratio
   return(list("Sharpe_matrix" = Grid_Search$Sharpe_matrix, "Optimal_weights" = 
-                Grid_Search$Sharpe_matrix[which.max(Grid_Search$Sharpe_matrix[, (n_stocks + 1)]), 
-                              1:n_stocks]))
+                Grid_Search$Sharpe_matrix[which.max(Grid_Search$Sharpe_matrix[, 
+                  (n_stocks + 1)]), 1:n_stocks], "Optimal_sharpe_ratio" = 
+                Grid_Search$Sharpe_matrix[which.max(Grid_Search$Sharpe_matrix[, 
+                  (n_stocks + 1)]), (n_stocks + 1)]))
 }
 
 
@@ -137,8 +139,9 @@ Random_Grid_Search <- function(iterations, n_stocks, Returns_annualized, data,
     #Calculate Sharpe ratio for given weights
     #Expected Portfolio Return
     ER_p <- normalized_weights %*% Returns_annualized
-    #Expected Portfolio Standard Deviation
-    Std_P <- sqrt(t(normalized_weights) %*% var(data) %*% normalized_weights)
+    #Expected Portfolio Standard Deviation- annualize by multiplying by number of
+    #trading days (251)
+    Std_P <- sqrt(t(normalized_weights) %*% (var(data) * 251) %*% normalized_weights)
     #Sharpe Ratio
     Sharpe_matrix[i, 1:n_stocks] <- normalized_weights
     Sharpe_matrix[i, (n_stocks + 1)] <- (ER_p - risk_free) / Std_P
