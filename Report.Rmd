@@ -72,6 +72,8 @@ Discuss the Advantages and disadvantages of the two methods- Deterministic and s
 
 ### DDS Algorithm
 
+- Discuss how the expected returns and then the portfolio standard deviation are ANNUALIZED- see Python for Finance course
+
 ### Heat Maps and Plots
 
 ## Testing
