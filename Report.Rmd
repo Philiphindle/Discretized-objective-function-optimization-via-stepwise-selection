@@ -63,6 +63,8 @@ $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}
 
 ### Discretized Dynamical System (Deterministic Grid Search)
 
+- One of the advantages is that we can set the level of granularity here. i.e. a weight of 12.4 is effectively the same as 12.37838383838, as the qualitative results are effectively the same and in reality, one tends to 
+
 ### Bisection Method
 
 - Identify an interval (a, b), where the gradient switches sign. Bisection is an example of a more general deterministic method
@@ -72,6 +74,8 @@ $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}
 ### Stochastic Grid Search
 
 ### Simulated Aneeling
+
+The problem we face with simulated aneeling, in comparison to its standard applications, is that the weights are bounded to lie in the interval [0, 1] and must sum to one. Therefore, we need to decide whether to use normal distributions and truncate any weights to lie in [0, 1] or use a distribution with support [0, 1] (e.g. Beta distribution).
 
 ### Other Optimization Methods
 
@@ -98,6 +102,10 @@ Unit testing helps to create robust code. This ensures the code is robust to new
 ### Boundary Testing
 
 ### Simulation
+
+- So far we have tested the function on 3 stocks, so we can conclude that syntactically there are no major issues. However, to assess the performance of the different simulation methods, one really needs to run the functions with a far larger number of stocks. As the number of stocks gets larger, 'edges' of the search space are less likely to be searched for random search. Furthermore, the optimzation function can get stuck in local maxima, which can be problematic.
+
+- Need to be able to simulate data such that we start with the Sharpe ratio and work backwards, to ensure that we know the exact value of the maximum Sharpe ratio and corresponding weights, in order to assess the performance of the different optimization methods.
 
 ### Assessing Computational Efficiency
 
