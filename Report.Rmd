@@ -1,6 +1,6 @@
 ---
 title: "DDS Algorithm"
-author: "Dominic Scruton"
+author: "Dominic Scruton & Philip Hindle"
 date: "22 May 2020"
 output: pdf_document
 ---
@@ -40,7 +40,18 @@ The Sharpe ratio specifies the Additional expected return for a given level of r
 
 ### Optimization Problem
 
-One would like to maximize the Sharpe ratio such that the sum of weights in the portfolio equals one. This optimization problem can be expressed as follows:
+Optimization is a common theme that underpins the fitting of Statistical models. From the maximization of the log-likelihood function under Linear Models, to the minimization of errors under Neural Network classifiers, optimization is fundamentally important to obtaining objective solutions to many problems in the world of Data Science and Statistical research.
+
+The general Optimization problem can be defined as follows:
+
+\begin{align*} 
+x^* = a&rgmin f(x; y)\\
+& x \in \Omega
+\end{align*}
+
+- discuss the problems- sometimes can't differentiate, other times it is not computationally feasible to find exact answers, when we have large amounts of data and lots of stocks.
+
+In this case, one would like to maximize the Sharpe ratio such that the sum of weights in the portfolio equals one. This optimization problem can be expressed as follows:
 
 $$Max \left( \frac{E[r_p] - r_f}{Std[E[r_p]]} \right) s.t. \sum_{i = 1}^{K} w_i = 1$$
 
@@ -50,13 +61,15 @@ $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}
 
 ### Theoretical Solution (i.e. consider the actual mathematical result)
 
-### Discretized Dynamical System
-
-### Grid Search
+### Discretized Dynamical System (Deterministic Grid Search)
 
 ### Bisection Method
 
+- Identify an interval (a, b), where the gradient switches sign. Bisection is an example of a more general deterministic method
+
 ### Gauss-Newton Method
+
+### Stochastic Grid Search
 
 ### Simulated Aneeling
 
