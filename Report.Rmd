@@ -63,7 +63,7 @@ $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}
 
 ### Discretized Dynamical System (Deterministic Grid Search)
 
-- One of the advantages is that we can set the level of granularity here. i.e. a weight of 12.4 is effectively the same as 12.37838383838, as the qualitative results are effectively the same and in reality, one tends to 
+- One of the advantages is that we can set the level of granularity here. i.e. a weight of 12.4 is effectively the same as 12.37838383838, as the qualitative results are effectively the same and in reality, one tends to . Really inefficient- needlessly searches the entire area and not at all granular- becomes extremely computationally inefficient for large numbers of stocks.
 
 ### Bisection Method
 
@@ -116,6 +116,10 @@ Unit testing helps to create robust code. This ensures the code is robust to new
 ### Example Portfolio
 
 We test and simulate using stock returns from 1 January 2010 to 1 December 2020 inclusive, for Delta Airlines, Walmart and Microsoft stock in a portfolio (could add many more)
+
+## Conclusion
+
+- Discuss the wider applicability of these methods- in Machine Learning, when we have many hyperparameters to tune, rather than using grid search, we can use Gauss- Newton and Simulated Aneeling to massively reduce computationally time and search a far greater space of hyperparameter values- huge applicability in all fields of statistics and machine learning.
 
 ## Bibliography
 
