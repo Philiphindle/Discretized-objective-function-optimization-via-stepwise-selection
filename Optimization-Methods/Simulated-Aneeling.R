@@ -65,10 +65,14 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
   #Calculate Sharpe Ratio for starting weights
   Sharpe_matrix[1, ] <- c(starting_weights, Sharpe)
   
+  #Initialize delta
+  delta <- delta0
+  
   #Stopping schedule
   while (delta < delta0) {
     #Propose a new set of weights
-    weights <- rnorm(n_stocks, mean = normalized_weights, sd = 0.1 / (delta ^ 2))
+    weights <- rnorm(n_stocks, mean = Sharpe_matrix[i, 1:n_stocks], sd = 0.1 / 
+                       (delta ^ 2))
     normalized_weights <- weights / sum(weights)
     
     #Calculate Sharpe ratio for given weights
@@ -77,9 +81,16 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
     #Expected Portfolio Standard Deviation- annualize by multiplying by number of
     #trading days (251)
     Std_P <- sqrt(t(normalized_weights) %*% (var(data) * 251) %*% normalized_weights)
-    #Sharpe Ratio for 
-    Sharpe_matrix[i, 1:n_stocks] <- normalized_weights
-    Sharpe_matrix[i, (n_stocks + 1)] <- (ER_p - risk_free) / Std_P
+    
+    Sharpe <- (ER_p - risk_free) / Std_P    
+    
+    #Add new weights if Sharpe Ratio is greater
+    if (Sharpe > Sharpe_matrix[i, (n_stocks + 1)]) {
+      Sharpe_matrix[i, ] <- c(normalized_weights, Sharpe)
+    }
+    
+    i <- i + 1
+    delta <- delta ^ cooling_schedule
   }
   #Return Sharpe Matrix as a list and identify weights corresponding to greatest 
   #Sharpe Ratio
