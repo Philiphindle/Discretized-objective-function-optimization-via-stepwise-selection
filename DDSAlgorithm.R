@@ -14,7 +14,7 @@ source("Optimization-Methods/Simulated-Aneeling.R")
 
 DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data, 
                              risk_free = 1.01, random.seed = 1234, 
-                             method = "Grid Search"){
+                             method = "Grid Search", n_simulation = 1){
   
   #Check input arguments are of correct structure and value
   # 1. Checking Iterations is a positive integer
@@ -52,6 +52,16 @@ DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data,
       DDS_optimization <- Random_Grid_Search(iterations, n_stocks, Returns_annualized, 
                                         data, risk_free, Sharpe_matrix)  
   }
+  
+  
+  # if (method == "Simulated Aneeling") {
+  #   #Check if the no. of simulations for Simulated aneeling is greater than one
+  #   if (n_simulations != 1) {
+  #     #Store the results of the different simulations, where we have different
+  #     #initialization weights
+  #   }
+  #   DDS_optimization <- 
+  # }
 
   #Identify weights corresponding to greatest Sharpe Ratio
   return(list("Sharpe_matrix" = DDS_optimization$Sharpe_matrix, "Optimal_weights" = 
@@ -135,3 +145,6 @@ DDS_RandomSearch(data = Returns, iterations = c(2, 3, 4))
 # Consider the computational speed of the different optimization methods and plot
 #a graph showing how this speed is affected both by the number of possible stocks
 #and the number of iterations.
+
+#For simulated aneeling, we could plot the path of weights for each stock to show 
+#convergence to the optimal weights
