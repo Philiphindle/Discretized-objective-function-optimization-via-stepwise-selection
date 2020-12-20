@@ -2,7 +2,7 @@
 # Simulated Aneeling Function ---------------------------------------------
 
 
-Simulated_Aneeling <- function(iterations, n_stocks, sd = 0.1, Returns_annualized, 
+Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized, 
                                data, risk_free, Sharpe_matrix, tol = 0.01, 
                                cooling_schedule = 0.01, starting_weights = NULL){
   #Simulated Aneeling will require additional parameters, so we will need an option
@@ -24,6 +24,28 @@ Simulated_Aneeling <- function(iterations, n_stocks, sd = 0.1, Returns_annualize
   #Also choose a cooling schedule for which the simulations support- i.e. choose
   #a cooling schedule conducive with good function performance
   
+  #Check starting weights sum to one- have some tolerance if they are not exactly
+  if (sum(starting_weights) < 0.99 | sum(starting_weights) > 1.01) {
+    stop("Stock weights must sum to one")
+  }
+  
+  #Function to calculate Sharpe Ratio for Optional Weights
+  if (is.null(starting_weights) != TRUE) {
+      #If weights are close to one then normalize
+      if (sum(starting_weights) != 1) {
+          starting_weights <- starting_weights / sum(starting_weights)
+      }
+      #Calculate Sharpe ratio for given weights
+      #Expected Portfolio Return
+      ER_p <- starting_weights %*% Returns_annualized
+      #Expected Portfolio Standard Deviation- annualize by multiplying by number of
+      #trading days (251)
+      Std_P <- sqrt(t(starting_weights) %*% (var(data) * 251) %*% starting_weights)
+      #Sharpe Ratio for 
+      Sharpe_matrix[1, 1:n_stocks] <- starting_weights
+      Sharpe_matrix[1, (n_stocks + 1)] <- (ER_p - risk_free) / Std_P
+  }  
+  
   #Starting weights- use grid search with number of iterations proportional to number
   #of stocks in portfolio
   if (is.null(starting_weights)) {
@@ -32,14 +54,21 @@ Simulated_Aneeling <- function(iterations, n_stocks, sd = 0.1, Returns_annualize
                               Sharpe_matrix)$Sharpe_matrix
     starting_weights <- Random_search_weights[which.max(Random_search_weights[, 
                                 (n_stocks + 1)]), 1:n_stocks]
+    Sharpe <- Random_search_weights[which.max(Random_search_weights[, (n_stocks + 1)]), (n_stocks + 1)]
   }
-  weights <- c(runif(n_stocks))
-  normalized_weights <- weights / sum(weights)
+  
+  #Set indexing
+  i <- 1
+  conv <- FALSE
+  loop <- TRUE
+  
+  #Calculate Sharpe Ratio for starting weights
+  Sharpe_matrix[1, ] <- c(starting_weights, Sharpe)
   
   #Stopping schedule
   while (delta < delta0) {
     #Propose a new set of weights
-    weights <- rnorm(n_stocks, mean = normalized_weights, sd = 1 / (delta ^ 2))
+    weights <- rnorm(n_stocks, mean = normalized_weights, sd = 0.1 / (delta ^ 2))
     normalized_weights <- weights / sum(weights)
     
     #Calculate Sharpe ratio for given weights
@@ -48,7 +77,7 @@ Simulated_Aneeling <- function(iterations, n_stocks, sd = 0.1, Returns_annualize
     #Expected Portfolio Standard Deviation- annualize by multiplying by number of
     #trading days (251)
     Std_P <- sqrt(t(normalized_weights) %*% (var(data) * 251) %*% normalized_weights)
-    #Sharpe Ratio
+    #Sharpe Ratio for 
     Sharpe_matrix[i, 1:n_stocks] <- normalized_weights
     Sharpe_matrix[i, (n_stocks + 1)] <- (ER_p - risk_free) / Std_P
   }
