@@ -115,7 +115,7 @@ Other potential pitfalls of programming in R include Scoping. In R Scoping is _l
 
 Boundary tests are useful in dealing with this problem. Provide a list/table of the boundary tests used on the different functions.
 
-** Table 1- Example Boundary Tests**
+__Table 1- Example Boundary Tests__
 
 | Test  | Function |
 |-------|----------|
@@ -135,6 +135,24 @@ Boundary tests are useful in dealing with this problem. Provide a list/table of 
 - discuss the computational efficiency of the different optimization methods- measure using the system.time function, for example.
 - Also discuss how I improved the computational speed of the function using Parallelization and profiling.
 
+Profiling is the process of analyzing the speed of execution of different parts of our code (Mailund, 2017). In particular, we want to identify inefficient and slow chunks of code and then act to improve their speed. Figuring out where these bottlenecks are requires _Profiling_. We use the _profvis_ package for profiling in R and the . If we do find areas of the code which can be improved, we can improve the computational efficient of either the algorithms we run or the data structures we use.
+
+The _microbenchmark_ package enables one to compare different expressions. The microbenchmark() function runs a sequence of expressions several times and computes statistics on the execution time in units down to nanoseconds. 
+
+### Simple Ways to improve computational Efficiency
+
+- Discuss this both in terms of R and other programming languages in general.
+
+- Discuss the measures we have used here
+
+1) Vectorization
+2) Pre-defining the dimensions of a vector/ matrix/ dataframe
+3) Switching to C++
+
+-We can also make use of the process of parallelization when more than one simulation of each algorithm is required, enabling multiple runs of the algorithm to run at once, by utilizing extra 'cores' of ones computer.
+
+C++ enables one to program at a lower level, giving us greater control over the computer, enabling one to greatly optimize function performance. The Rcpp packages makes integrating R and C++ straightforward. However, this is beyond the scope of this paper and discussion.
+
 The process of vectorization can be used 
 
 - Include a table for simulation speeds and results- also discuss computational complexity and efficiency
@@ -147,7 +165,7 @@ We test and simulate using stock returns from 1 January 2010 to 1 December 2020 
 
 - Discuss the wider applicability of these methods- in Machine Learning, when we have many hyperparameters to tune, rather than using grid search, we can use Gauss- Newton and Simulated Aneeling to massively reduce computationally time and search a far greater space of hyperparameter values- huge applicability in all fields of statistics and machine learning.
 
-* Completed all of "Beginning Data Science in R", except for the creation of packages (Chapter 11).
+* Completed all of "Beginning Data Science in R", except for the creation of packages (Chapter 11 and Chapter 14).
 
 ## Bibliography
 
