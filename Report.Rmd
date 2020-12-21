@@ -95,13 +95,34 @@ Discuss the Advantages and disadvantages of the two methods- Deterministic and s
 
 ## Testing
 
+To build robust software one needs to approach the problem of testing rigorously. 
+
 ### Unit Testing
 
 Unit testing helps to create robust code. This ensures the code is robust to new versions of R, as well as enabling users to utilize the function correctly. This ensures the function generates the expected output and can deal with arguments of different structure, flagging problems if the structure of input arguments is not appropriate (boundary testing). This ensure code is robust and results are reproducible.
 
+Unit testing tests functional units. For each created function, one should create further code testing whether the function works as intended. For unit testing, we typically start with function arguments such that we know the answer and then test whether the function returns the correct answer (Mailund, 2017). In this case, the problem is more complex and it is generally not possible (or not worth the time) to manually calculate the Sharpe ratio for a given set of stocks and weights. (Could either work backwards from a given Sharpe Ratio or use validated results online)
+
+One can automate the process of testing functions by creating functions that return error messages if the results are not correct. Doing this can save time, with testing functions called whenever changes are made to each function.
+
+In this case, because the function is not deterministic, there will be variation in the results of each function, hence a level of tolerance is set. One can also use random numbers in tests, simulating artificial data. This can often be appropriate, enabling one to test functions with more 'unusual' data, to ensure functions remain valid for outlying and extreme parameter values. If the function is not deterministic (which in our case it isn't- we have stochastic functions, all of which are approximations to the specific value).  
+
+List an example of the main data and functions used to test each function.
+
 ### Boundary Testing
 
-Other potential pitfalls of programming in R include Scoping. In R Scoping is _lexical_, so if a variable is used in a function but not defined either as an arguments or part of the function, R will start searching outward of the function for values in the global environment (Mailund, 2017). Therefore, incorrect function arguments or values might be called that have already been created in the global environment. To avoid this, default arguments, warning statements and stop functions are used to ensure a robust function that is not prone to user error. 
+Other potential pitfalls of programming in R include Scoping. In R Scoping is _lexical_, so if a variable is used in a function but not defined either as an arguments or part of the function, R will start searching outward of the function for values in the global environment (Mailund, 2017) (unlike compiled languages, such as C++ and JAVA). Therefore, incorrect function arguments or values might be called that have already been created in the global environment. To avoid this, default arguments, warning statements and stop functions are used to ensure a robust function that is not prone to user error. 
+
+Boundary tests are useful in dealing with this problem. Provide a list/table of the boundary tests used on the different functions.
+
+** Table 1- Example Boundary Tests**
+
+| Test  | Function |
+|-------|----------|
+| Check Arguments of correct data structure | ALL |
+| Check data specified as daily returns | DDS |
+| Check Starting Weights Sum to 1 | Simulated Aneeling |
+
 
 ### Simulation
 
@@ -114,6 +135,9 @@ Other potential pitfalls of programming in R include Scoping. In R Scoping is _l
 - discuss the computational efficiency of the different optimization methods- measure using the system.time function, for example.
 - Also discuss how I improved the computational speed of the function using Parallelization and profiling.
 
+The process of vectorization can be used 
+
+- Include a table for simulation speeds and results- also discuss computational complexity and efficiency
 
 ### Example Portfolio
 
@@ -122,6 +146,8 @@ We test and simulate using stock returns from 1 January 2010 to 1 December 2020 
 ## Conclusion
 
 - Discuss the wider applicability of these methods- in Machine Learning, when we have many hyperparameters to tune, rather than using grid search, we can use Gauss- Newton and Simulated Aneeling to massively reduce computationally time and search a far greater space of hyperparameter values- huge applicability in all fields of statistics and machine learning.
+
+* Completed all of "Beginning Data Science in R", except for the creation of packages (Chapter 11).
 
 ## Bibliography
 
