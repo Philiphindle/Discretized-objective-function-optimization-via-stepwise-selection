@@ -129,6 +129,12 @@ Jonathan Berk, Peter DeMarzo. 2014. "Corporate Finance". Pearson.
 
 Geoffrey Grimmett, David Stirzaker. 2001. "Probability and Random Processes". Oxford University Press.
 
+Thomas Mailund. 2017. "Beginning Data Science in R: Data Analysis, Visualization and Modelling for the Data Scientist". Apress.
+
+Geof Givens, Jennifer Hoeting. 2013. "Computational Statistics". Wiley and Sons.
+
+Paulo Cortez. 2014. "Modern Optimization with R". Springer.
+
 RStudio Team (2016). RStudio: Integrated Development for R. RStudio, Inc., Boston, MA URL http://www.rstudio.com/.
 
 ## Appendix
