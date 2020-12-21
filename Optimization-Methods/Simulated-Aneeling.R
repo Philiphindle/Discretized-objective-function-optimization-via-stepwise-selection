@@ -97,3 +97,12 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
   OptimizationResults <- list("Sharpe_matrix" = Sharpe_matrix)
   return(OptimizationResults = OptimizationResults)
 }
+
+
+# 1) Boundary Testing -----------------------------------------------------
+
+
+
+# 2) Unit Root Testing ----------------------------------------------------
+
+

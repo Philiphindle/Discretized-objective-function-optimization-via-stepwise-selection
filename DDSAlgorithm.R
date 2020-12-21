@@ -71,7 +71,17 @@ DDS_RandomSearch <- function(iterations = 1000, returns = 'yes', data,
                   (n_stocks + 1)]), (n_stocks + 1)]))
 }
 
-# Testing -----------------------------------------------------------------
+
+
+# 1) Boundary Testing --------------------------------------------------------
+
+#Check iterations is appropriately specified
+DDS_RandomSearch(data = Returns, iterations = -1)
+DDS_RandomSearch(data = Returns, iterations = 27.3)
+DDS_RandomSearch(data = Returns, iterations = c(2, 3, 4))
+
+
+# 2) Unit Testing ------------------------------------------------------------
 
 #Vector of daily returns for each simulated stock
 #1000 trading days in total
@@ -129,18 +139,11 @@ quilt.plot(x = Test$Sharpe_matrix[, 1], y = Test$Sharpe_matrix[, 3],
            z = Test$Sharpe_matrix[, 4], nrow = 50, ncol = 100)
 plot(Sharpe_matrix[, 1], Sharpe_matrix[, 4])
 
-# Boundary Testing --------------------------------------------------------
-
-#Check iterations is appropriately specified
-DDS_RandomSearch(data = Returns, iterations = -1)
-DDS_RandomSearch(data = Returns, iterations = 27.3)
-DDS_RandomSearch(data = Returns, iterations = c(2, 3, 4))
-
 #We could also profile the code and aim for parallelization to improve
 #computational speed
 
 
-# Computational Speed and Performance -------------------------------------
+# 3) Computational Speed and Performance -------------------------------------
 
 # Consider the computational speed of the different optimization methods and plot
 #a graph showing how this speed is affected both by the number of possible stocks
