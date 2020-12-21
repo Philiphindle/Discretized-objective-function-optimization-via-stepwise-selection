@@ -101,6 +101,8 @@ Unit testing helps to create robust code. This ensures the code is robust to new
 
 ### Boundary Testing
 
+Other potential pitfalls of programming in R include Scoping. In R Scoping is _lexical_, so if a variable is used in a function but not defined either as an arguments or part of the function, R will start searching outward of the function for values in the global environment (Mailund, 2017). Therefore, incorrect function arguments or values might be called that have already been created in the global environment. To avoid this, default arguments, warning statements and stop functions are used to ensure a robust function that is not prone to user error. 
+
 ### Simulation
 
 - So far we have tested the function on 3 stocks, so we can conclude that syntactically there are no major issues. However, to assess the performance of the different simulation methods, one really needs to run the functions with a far larger number of stocks. As the number of stocks gets larger, 'edges' of the search space are less likely to be searched for random search. Furthermore, the optimzation function can get stuck in local maxima, which can be problematic.
