@@ -81,11 +81,18 @@ A problem with using the normal distribution to simulate weights is that stocks 
 
 We effectively use a truncated normal distribution and in this case this is very useful, because one can reach weights of zero with high probability for stocks that provide little contribution to the Sharpe ratio (and stocks we would therefore not wish to include in a portfolio constructed according to the Sharpe ratio). Therefore, the properties of the truncated normal distrbution is that it ables one to find 'corner solutions' and can do so very efficiently for stocks that clearly should not be incorporated into a portfolio.
 
+Discuss the Properties we want form a simulation function
+- Want values in interval [0, 1].
+- Also want non-zero probability that simulated weights can be exactly 0, thus eliminating surplus stocks from the portfolio.
+-Want a standard deviation that is able to 'cool off' and decrease over time.
+
 ### Other Optimization Methods
 
 There exist a plethora of possible methods to solve the optimization problem identified in this report. The two general contrasting methods discussed are Stochastic and Deterministic forms of optimization.
 
 Discuss the Advantages and disadvantages of the two methods- Deterministic and stochastic optimization methodology and also of the methods in general.
+
+Discuss specifically why I chose to use the 3 methods that I did.
 
 ## The DDS Algorithm (R Package)
 
