@@ -4,7 +4,8 @@
 
 Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized, 
                                data, risk_free, Sharpe_matrix, tol = 0.01, 
-                               cooling_schedule = 0.01, starting_weights = NULL){
+                               cooling_schedule = 1.01, starting_weights = NULL, 
+                               delta = 1.01){
   #Simulated Aneeling will require additional parameters, so we will need an option
   #in the main function to enable this
   
@@ -23,6 +24,14 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
   
   #Also choose a cooling schedule for which the simulations support- i.e. choose
   #a cooling schedule conducive with good function performance
+  
+  #Check delta > 1 (Otherwise no convergence- must have delta> 1)
+  
+  #Check delta appropriate (i.e. delta must be realistically between 1.0 and 1.01, 
+  #otherwise algorithm will converge too quickly, potentially getting stuck in local
+  #maxima)
+  
+  #Also exactly the same logic for the cooling schedule
   
   #Check starting weights sum to one- have some tolerance if they are not exactly
   if (sum(starting_weights) < 0.99 | sum(starting_weights) > 1.01) {
@@ -57,22 +66,22 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
     Sharpe <- Random_search_weights[which.max(Random_search_weights[, (n_stocks + 1)]), (n_stocks + 1)]
   }
   
-  #Set indexing
-  i <- 1
+  #Set indexing and Booleans for Convergence of Algorithm and Continuation of loop
+  i <- 2
   conv <- FALSE
   loop <- TRUE
   
-  #Calculate Sharpe Ratio for starting weights
-  Sharpe_matrix[1, ] <- c(starting_weights, Sharpe)
+  #Add row for starting weights and corresponding Sharpe Ratio
+  Sharpe_matrix<- rbind(c(starting_weights, Sharpe), Sharpe_matrix)
   
-  #Initialize delta
-  delta <- delta0
+  #Create vector of zeros
+  Zero_vector <- c(rep(0, n_stocks))
   
   #Stopping schedule
-  while (delta < delta0) {
+  while (loop) {
     #Propose a new set of weights
-    weights <- rnorm(n_stocks, mean = Sharpe_matrix[i, 1:n_stocks], sd = 0.1 / 
-                       (delta ^ 2))
+    weights <- pmax(rnorm(n_stocks, mean = Sharpe_matrix[(i - 1), 1:n_stocks], sd = 0.1 / 
+                       (delta ^ 2)), Zero_vector)
     normalized_weights <- weights / sum(weights)
     
     #Calculate Sharpe ratio for given weights
@@ -84,11 +93,22 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
     
     Sharpe <- (ER_p - risk_free) / Std_P    
     
-    #Add new weights if Sharpe Ratio is greater
-    if (Sharpe > Sharpe_matrix[i, (n_stocks + 1)]) {
+    #Add new weights if Sharpe Ratio is greater, otherwise use previous weights
+    if (Sharpe > Sharpe_matrix[(i - 1), (n_stocks + 1)]) {
       Sharpe_matrix[i, ] <- c(normalized_weights, Sharpe)
+    }else{
+      Sharpe_matrix[i, ] <- Sharpe_matrix[(i - 1), ]
     }
     
+    #Stop loop once max. iterations reached
+    if (i > iterations) {
+      loop <- FALSE
+      #display whether algorithm has converged
+      if (Sharpe_matrix[i, (n_stocks + 1)] == 
+          Sharpe_matrix[(max((i - 100), 1)), (n_stocks + 1)]) {
+        conv <- TRUE
+      }
+    }
     i <- i + 1
     delta <- delta ^ cooling_schedule
   }
