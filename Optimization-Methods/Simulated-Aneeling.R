@@ -4,7 +4,7 @@
 
 Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized, 
                                data, risk_free, Sharpe_matrix, tol = 0.01, 
-                               cooling_schedule = 1.01, starting_weights = NULL, 
+                               cooling_schedule = 1.001, starting_weights = NULL, 
                                delta = 1.01){
   #Simulated Aneeling will require additional parameters, so we will need an option
   #in the main function to enable this
@@ -33,6 +33,11 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
   
   #Also exactly the same logic for the cooling schedule
   
+  #Make sure starting weights aren't specified as non-null when they only exist in 
+  #the current working environment- need to be of the right dimensions (i.e. if 
+  #weights are not explicitly expressed as an arguement, we need to set any 
+  #starting weights in the global environment to be zero)
+  
   #Check starting weights sum to one- have some tolerance if they are not exactly
   if (sum(starting_weights) < 0.99 | sum(starting_weights) > 1.01) {
     stop("Stock weights must sum to one")
@@ -59,11 +64,12 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
   #of stocks in portfolio
   if (is.null(starting_weights)) {
     Random_search_weights <- Random_Grid_Search(iterations = min(1000, 10000 / n_stocks), 
-                              n_stocks, Returns_annualized, data, risk_free, 
-                              Sharpe_matrix)$Sharpe_matrix
+                                                n_stocks, Returns_annualized, data, risk_free, 
+                                                Sharpe_matrix)$Sharpe_matrix
     starting_weights <- Random_search_weights[which.max(Random_search_weights[, 
-                                (n_stocks + 1)]), 1:n_stocks]
+                                                                              (n_stocks + 1)]), 1:n_stocks]
     Sharpe <- Random_search_weights[which.max(Random_search_weights[, (n_stocks + 1)]), (n_stocks + 1)]
+    
   }
   
   #Set indexing and Booleans for Convergence of Algorithm and Continuation of loop
@@ -118,6 +124,21 @@ Simulated_Aneeling <- function(iterations, n_stocks, Returns_annualized,
   return(OptimizationResults = OptimizationResults)
 }
 
+library(ggplot2)
+# Colour Palettes
+library(viridis)
+
+#Plot for initial data- Microsoft, Walmart, Delta Airlines
+Sharpe_matrix <- as.data.frame(Sharpe_matrix)
+ggplot(Sharpe_matrix) +
+  geom_point(aes(Sharpe_matrix[, 5], Sharpe_matrix[, 3], colour = Sharpe_matrix[, 6]), 
+             size = 3) + 
+  geom_path(aes(Sharpe_matrix[, 5], Sharpe_matrix[, 3])) + 
+  scale_color_viridis(option = "B") + 
+  labs(x = "Walmart Weight", y = "Apple Weight", 
+       title ="Simulated Aneeling Path of Weights", colour = "Sharpe Ratio") 
+
+# Plot for alternative data- Microsoft, Amazon, Walmart
 
 # 1) Boundary Testing -----------------------------------------------------
 
