@@ -77,6 +77,10 @@ $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}
 
 The problem we face with simulated aneeling, in comparison to its standard applications, is that the weights are bounded to lie in the interval [0, 1] and must sum to one. Therefore, we need to decide whether to use normal distributions and truncate any weights to lie in [0, 1] or use a distribution with support [0, 1] (e.g. Beta distribution).
 
+A problem with using the normal distribution to simulate weights is that stocks with low weights may have biased estimated weights (estimated too high), because simulations yielding a negative weight are rounded up to zero. However, this stock will then have zero weight and if this is correct, the weights will stay zero throughout the rest of the simulation. Of course, several other distributions could be used, such as the lognormal, which have a support of positive real numbers $(x \in \mathbb{R}), x > 0$.
+
+We effectively use a truncated normal distribution and in this case this is very useful, because one can reach weights of zero with high probability for stocks that provide little contribution to the Sharpe ratio (and stocks we would therefore not wish to include in a portfolio constructed according to the Sharpe ratio). Therefore, the properties of the truncated normal distrbution is that it ables one to find 'corner solutions' and can do so very efficiently for stocks that clearly should not be incorporated into a portfolio.
+
 ### Other Optimization Methods
 
 There exist a plethora of possible methods to solve the optimization problem identified in this report. The two general contrasting methods discussed are Stochastic and Deterministic forms of optimization.
