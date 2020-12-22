@@ -118,14 +118,16 @@ plot(Sharpe_matrix[, 1], Sharpe_matrix[, 4])
 DDS_RandomSearch(data = data, risk_free = 1.02)
 
 #Plot with some real test data
-#Consider stock in Microsoft, Walmart and Delta Air Lines
+#Consider stock in Microsoft, Amazon, Walmart and Delta Air Lines
 MSFT <- read.csv("data/MSFT.csv")["Adj.Close"]
+AMZN <- read.csv("data/AMZN.csv")["Adj.Close"]
+AAPL <- read.csv("data/AAPL.csv")["Adj.Close"]
 DAL <- read.csv("data/DAL.csv")["Adj.Close"]
 WMT <- read.csv("data/WMT.csv")["Adj.Close"]
-data <- cbind(MSFT, DAL, WMT)
+data <- cbind(MSFT, AMZN, AAPL, DAL, WMT)
 
 #Calculate Simple Returns
-Returns <- matrix(NA, nrow = (dim(data)[1] - 1), ncol = 3)
+Returns <- matrix(NA, nrow = (dim(data)[1] - 1), ncol = dim(data)[2])
 for (i in 1:(dim(data)[1] - 1)) {
   Returns[i, ] <- as.matrix(data)[i + 1, ] / as.matrix(data)[i, ]
 }
