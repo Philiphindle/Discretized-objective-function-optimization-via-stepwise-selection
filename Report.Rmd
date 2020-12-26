@@ -94,11 +94,38 @@ $$f'(\mathbf{w^*}) \approx f'(\mathbf{w}) + f''(\mathbf{x}) (\mathbf{w} - \mathb
 
 $$\mathbf{w^*} \approx \mathbf{w} - \frac{f'(\mathbf{w})}{f''(\mathbf{w})}$$
 
-One must note in this equation that $f''(\mathbf{w})$ is the derivate of the derivative of the Sharpe Ratio, whose roots we wish to identify, thus represents the rate of change of the derivative. The derivatives can either be calculated analytically or by numerical integration. A greater derivative implies the function is farther from a root. In the graph below, the algorithm is initialized at weights $\mathbf{w}_0$. One wishes to find the weights, $w^*$ that correspond to $f'(\mathbf{w}^*) = 0$.
+One must note in this equation that $f''(\mathbf{w})$ is the derivate of the derivative of the Sharpe Ratio, whose roots we wish to identify, thus represents the rate of change of the derivative. The derivatives can either be calculated analytically or by numerical integration. A greater derivative implies the function is farther from a root. In the graph below, the algorithm is initialized at weights $\mathbf{w}_0$. One wishes to find the weights, $w^*$ that correspond to $f'(\mathbf{w}^*) = 0$. A smaller derivative of $f'(\mathbf{w})$ is associated with a greater change in weights, whilst similarly a lower value of $f'(\mathbf{w})$ implies the algorithm is closer to the solution and hence the step size is smaller.
+
+![](Graphs/Gauss-Newton.png)
+
+Newton's method can be extended to functions in d-dimensions by considering the gradient and Hessian, resulting in a multi-dimensional update step. The algorithm now consists of the following elements:
+
+__d-dimension input (weights):__ $\mathbf{w} = (w_1, ..., w_K)$
+
+__Gradient:__ $\nabla f(\mathbf{w}) = (\frac{\partial f}{\partial x_1}, ..., \frac{\partial f}{\partial x_K})$
+
+__Hessian:__ $\mathbf{H}(\mathbf{w})$ has (i, j) entry $\frac{\partial^2 f}{\partial x_i \partial x_j}$, so its two-dimensional version is given as:
+
+$$\mathbf{H}(\mathbf{w}) = \left(\begin{array}{cc} 
+\frac{\partial^2 f}{\partial w_1^2} & \frac{\partial^2 f}{\partial w_1 \partial w_2}\\
+\frac{\partial^2 f}{\partial w_1 \partial w_2} & \frac{\partial^2 f}{\partial w_2^2}
+\end{array}\right)$$
+
+The update step from the one-dimensional version of Newton's method can then be written as:
+
+$$\mathbf{w}^{t + 1} - \mathbf{w^t} = H^{-1}(\mathbf{w}) \nabla f(\mathbf{w})$$
+
+$$ \implies H(\mathbf{w}) (\mathbf{w}^{t + 1} - \mathbf{w^t}) = - \nabla f(\mathbf{w})$$
+
+$$ \implies H(\mathbf{w}) \mathbf{\delta}^t = - \nabla f(\mathbf{w})$$
+
+Therefore, we have re-written this problem as a linear system, which can be solved accordingly: 
+
+$$ \implies H(\mathbf{w}) (\mathbf{w}^{t + 1} - \mathbf{w^t}) = - \nabla f(\mathbf{w})$$
 
 A further problem of Gauss-Newton Optimization is of convergence problems- the algorithm cen become circular or near circular, as it consistently over and then undershoots the optima, without getting closer as the number of iterations increases. 
 
-![](Graphs/Gauss-Newton.png)
+
 
 This method requires that the objective function is twice-differentiable and that the first and second derivatives are calculable. 
 
