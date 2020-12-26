@@ -50,6 +50,8 @@ x^* = a&rgmin f(x; y)\\
 & x \in \Omega
 \end{align*}
 
+In other words, one would like to obtain optimal values, $x^*$, by minimizing (or maximizing) the value of an objective function, whose value depend both on arguments $x$ and auxiliary data, $y$. In some cases, it might not be possible to solve this maximization problem analytically. Analytically, the optimum can be found by differentiation, $f'(x^*) = 0$. However, in some cases there is no analytic solution, or if there is it can be difficult to derive.
+
 - discuss the problems- sometimes can't differentiate, other times it is not computationally feasible to find exact answers, when we have large amounts of data and lots of stocks.
 
 In this case, one would like to maximize the Sharpe ratio such that the sum of weights in the portfolio equals one. This optimization problem can be expressed as follows:
@@ -74,9 +76,6 @@ An appropriate Optimization technique should have the following properties:
 
 2) 
 
-### Bisection Method
-
-- Identify an interval (a, b), where the gradient switches sign. Bisection is an example of a more general deterministic method
 
 ### Gauss-Newton Method
 
@@ -96,6 +95,10 @@ Discuss the Properties we want form a simulation function
 -Want a standard deviation that is able to 'cool off' and decrease over time.
 
 ### Other Optimization Methods
+
+__Bisection Method__
+
+- Identify an interval (a, b), where the gradient switches sign. One then computes the gradient at the midpoint, $c = \frac{a+b}{2}$ and then discards the vector of weights, a or b, for which the sign of the gradient at that point is the same as the sign of the gradient at point c. This method is simple to implement and can be easily extended to problems in an arbitrarily high number of dimensions, however typically requires many function evaluations (inefficient) and can become stuck in local and not global optima. 
 
 There exist a plethora of possible methods to solve the optimization problem identified in this report. The two general contrasting methods discussed are Stochastic and Deterministic forms of optimization.
 
