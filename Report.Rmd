@@ -9,10 +9,11 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+### Introduction
 
 ## Portfolio Theory
 
-### Introduction
+
 
 ### Capital Asset Pricing Model (CAPM)
 
@@ -61,9 +62,17 @@ $$Max \left( \frac{\mathbf{w^Tr}}{\sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}
 
 ### Theoretical Solution (i.e. consider the actual mathematical result)
 
+One may question why such effort has been expended to create the various optimization algorithms in this package and report. Whilst the exact solution is easily obtained for smaller portfolios of 'well-behaved' stocks, such a method can become computationally burdensome when the potential number of stocks is large and/or when the covariance matrix is (close to) non-invertible. In this case an exact solution may become very slow to calculate or might in fact be analytically intractable.
+
 ### Discretized Dynamical System (Deterministic Grid Search)
 
 - One of the advantages is that we can set the level of granularity here. i.e. a weight of 12.4 is effectively the same as 12.37838383838, as the qualitative results are effectively the same and in reality, one tends to . Really inefficient- needlessly searches the entire area and not at all granular- becomes extremely computationally inefficient for large numbers of stocks.
+
+An appropriate Optimization technique should have the following properties:
+
+1) Computationally Efficient, even for large datasets containing many stocks
+
+2) 
 
 ### Bisection Method
 
