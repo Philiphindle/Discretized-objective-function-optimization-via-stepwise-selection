@@ -52,9 +52,11 @@ x^* = a&rgmin f(x; y)\\
 
 In other words, one would like to obtain optimal values, $x^*$, by minimizing (or maximizing) the value of an objective function, whose value depend both on arguments $x$ and auxiliary data, $y$. In some cases, it might not be possible to solve this maximization problem analytically. Analytically, the optimum can be found by differentiation, $f'(x^*) = 0$. However, in some cases there is no analytic solution, or if there is it can be difficult to derive.
 
+In this case, the objective function, f, is the Sharpe Ratio, which one
+
 - discuss the problems- sometimes can't differentiate, other times it is not computationally feasible to find exact answers, when we have large amounts of data and lots of stocks.
 
-In this case, one would like to maximize the Sharpe ratio such that the sum of weights in the portfolio equals one. This optimization problem can be expressed as follows:
+In this case, one would like to maximize the Sharpe ratio ($f$) such that the sum of weights in the portfolio equals one $w_i \in [0, 1], \sum_{i = 1}^{K} w_i = 1$. This optimization problem can be expressed as follows:
 
 $$Max \left( \frac{E[r_p] - r_f}{Std[E[r_p]]} \right) s.t. \sum_{i = 1}^{K} w_i = 1$$
 
@@ -78,6 +80,27 @@ An appropriate Optimization technique should have the following properties:
 
 
 ### Gauss-Newton Method
+
+Recall, the problem of maximizing the Sharpe Ratio is equivalent to finding weights, $\mathbf{w^*}$, such that $f'(\mathbf{w^*}) = 0$ and 
+
+\begin{align*} 
+w^* = a&rgmax f(w; y)\\
+& w \in [0, 1]
+\end{align*}
+
+Any method used to find the roots of a function can therefore also be used to optimize the function, by finding the roots of its first derivative. The one-dimensional version of Newton's Method, derived from its Taylor Expansion is expressed as follows:
+
+$$f'(\mathbf{w^*}) \approx f'(\mathbf{w}) + f''(\mathbf{x}) (\mathbf{w} - \mathbf{w}^*)$$, resulting in optimal weights approximated by:
+
+$$\mathbf{w^*} \approx \mathbf{w} - \frac{f'(\mathbf{w})}{f''(\mathbf{w})}$$
+
+One must note in this equation that $f''(\mathbf{w})$ is the derivate of the derivative of the Sharpe Ratio, whose roots we wish to identify, thus represents the rate of change of the derivative. The derivatives can either be calculated analytically or by numerical integration. A greater derivative implies the function is farther from a root. In the graph below, the algorithm is initialized at weights $\mathbf{w}_0$. One wishes to find the weights, $w^*$ that correspond to $f'(\mathbf{w}^*) = 0$.
+
+A further problem of Gauss-Newton Optimization is of convergence problems- the algorithm cen become circular or near circular, as it consistently over and then undershoots the optima, without getting closer as the number of iterations increases. 
+
+![](Graphs/Gauss-Newton.png)
+
+This method requires that the objective function is twice-differentiable and that the first and second derivatives are calculable. 
 
 ### Stochastic Grid Search
 
