@@ -222,6 +222,8 @@ __Table 1- Example Boundary Tests__
 
 - Need to be able to simulate data such that we start with the Sharpe ratio and work backwards, to ensure that we know the exact value of the maximum Sharpe ratio and corresponding weights, in order to assess the performance of the different optimization methods.
 
+- Can simulate a Sharpe Ratio function that is some function of weights. e.g. Sharpe = w1*0.45 - w2 ^2 + 5 w3 +17. To find the weights corresponding to the true maximum, we have a Lagrangian, where we want to maximize the function Sharpe subject to the sum of weights being 1 and each individual weight lying in the interval [0, 1].We would then differentiate the Sharpe function and find its maximum subject to the stated conditions above.
+
 ### Assessing Computational Efficiency
 
 - discuss the computational efficiency of the different optimization methods- measure using the system.time function, for example.
