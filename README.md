@@ -36,4 +36,4 @@ __Advantages__
 __Disadvantages__
 - Sharpe Ratio can become stuck in local maxima and the chance of this increases as the number of stocks in the portfolio increases
 
-![Simulated Aneeling Convergence Path](.Graphs/Simulated-Aneeling-Path-Walmart-Apple.png)
+![Simulated Aneeling Convergence Path](https://github.com/Philiphindle/Discretized-objective-function-optimization-via-stepwise-selection/blob/master/Graphs/Simulated-Aneeling-Path-Walmart-Apple.png?raw=true)
