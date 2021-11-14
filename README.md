@@ -1,5 +1,7 @@
 #### Discretized Objective Function Optimization via Stepwise Selection
 
+*** Discuss why we are using Simulated Aneeling- Bayesian Optimization or Surrogate optimization could be used however in our case it is not computationally expensive to re-evaluate the objective function for each sample of weights (unlike say for Cross-Validation, where we would have to re-train the model)
+
 The purpose of this algorithm is to efficiently weight the allocation of stocks in a portfolio such that the Sharpe Ratio is maximized. There are several methods in which one can do this
 
 ### 1) Grid Search (Discretized Dynamical System)
